@@ -15,6 +15,7 @@ package v3
 
 import (
 	envoy_core_v3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
+	envoy_proxy_protocol_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/transport_sockets/proxy_protocol/v3"
 	envoy_tls_v3 "github.com/envoyproxy/go-control-plane/envoy/extensions/transport_sockets/tls/v3"
 	"github.com/projectcontour/contour/internal/protobuf"
 )
@@ -36,5 +37,29 @@ func DownstreamTLSTransportSocket(tls *envoy_tls_v3.DownstreamTlsContext) *envoy
 		ConfigType: &envoy_core_v3.TransportSocket_TypedConfig{
 			TypedConfig: protobuf.MustMarshalAny(tls),
 		},
+	}
+}
+
+// UpstreamProxyProtocolTransportSocket returns a custom transport socket using the version provided.
+func UpstreamProxyProtocolTransportSocket(version envoy_core_v3.ProxyProtocolConfig_Version) *envoy_core_v3.TransportSocket {
+	return &envoy_core_v3.TransportSocket{
+		Name: "envoy.transport_sockets.upstream_proxy_protocol",
+		ConfigType: &envoy_core_v3.TransportSocket_TypedConfig{
+			TypedConfig: protobuf.MustMarshalAny(
+				&envoy_proxy_protocol_v3.ProxyProtocolUpstreamTransport{
+					Config: &envoy_core_v3.ProxyProtocolConfig{
+						Version: version,
+					},
+					TransportSocket: UpstreamRawBufferTransportSocket(),
+				},
+			),
+		},
+	}
+}
+
+// UpstreamRawBufferTransportSocket returns a custom transport socket.
+func UpstreamRawBufferTransportSocket() *envoy_core_v3.TransportSocket {
+	return &envoy_core_v3.TransportSocket{
+		Name: "envoy.transport_sockets.raw_buffer",
 	}
 }

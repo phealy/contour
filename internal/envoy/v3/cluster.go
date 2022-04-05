@@ -100,6 +100,10 @@ func Cluster(c *dag.Cluster) *envoy_cluster_v3.Cluster {
 		)
 	case "h2c":
 		httpVersion = HTTPVersion2
+	case "proxyv1":
+		cluster.TransportSocket = UpstreamProxyProtocolTransportSocket(envoy_core_v3.ProxyProtocolConfig_V1)
+	case "proxyv2":
+		cluster.TransportSocket = UpstreamProxyProtocolTransportSocket(envoy_core_v3.ProxyProtocolConfig_V2)
 	}
 
 	if c.TimeoutPolicy.ConnectTimeout > time.Duration(0) {

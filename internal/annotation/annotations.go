@@ -60,13 +60,15 @@ var annotationsByKind = map[string]map[string]struct{}{
 		"projectcontour.io/websocket-routes":             {},
 	},
 	"Service": {
-		"projectcontour.io/max-connections":       {},
-		"projectcontour.io/max-pending-requests":  {},
-		"projectcontour.io/max-requests":          {},
-		"projectcontour.io/max-retries":           {},
-		"projectcontour.io/upstream-protocol.h2":  {},
-		"projectcontour.io/upstream-protocol.h2c": {},
-		"projectcontour.io/upstream-protocol.tls": {},
+		"projectcontour.io/max-connections":           {},
+		"projectcontour.io/max-pending-requests":      {},
+		"projectcontour.io/max-requests":              {},
+		"projectcontour.io/max-retries":               {},
+		"projectcontour.io/upstream-protocol.h2":      {},
+		"projectcontour.io/upstream-protocol.h2c":     {},
+		"projectcontour.io/upstream-protocol.proxyv1": {},
+		"projectcontour.io/upstream-protocol.proxyv2": {},
+		"projectcontour.io/upstream-protocol.tls":     {},
 	},
 	"HTTPProxy": {
 		"kubernetes.io/ingress.class":     {},
@@ -125,7 +127,7 @@ func parseInt32(s string) int32 {
 // projectcontour.io/upstream-protocol.{protocol} annotations.
 // 'protocol' identifies which protocol must be used in the upstream.
 func ParseUpstreamProtocols(m map[string]string) map[string]string {
-	protocols := []string{"h2", "h2c", "tls"}
+	protocols := []string{"h2", "h2c", "proxyv1", "proxyv2", "tls"}
 	up := make(map[string]string)
 	for _, protocol := range protocols {
 		ports := m[fmt.Sprintf("projectcontour.io/upstream-protocol.%s", protocol)]

@@ -1007,7 +1007,7 @@ func getProtocol(service contour_api_v1.Service, s *Service) (string, error) {
 	if service.Protocol != nil {
 		protocol = *service.Protocol
 		switch protocol {
-		case "h2c", "h2", "tls":
+		case "h2c", "h2", "proxyv1", "proxyv2", "tls":
 		default:
 			return "", fmt.Errorf("unsupported protocol: %v", protocol)
 		}

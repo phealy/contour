@@ -677,8 +677,8 @@ type Service struct {
 	// +kubebuilder:validation:ExclusiveMaximum=true
 	Port int `json:"port"`
 	// Protocol may be used to specify (or override) the protocol used to reach this Service.
-	// Values may be tls, h2, h2c. If omitted, protocol-selection falls back on Service annotations.
-	// +kubebuilder:validation:Enum=h2;h2c;tls
+	// Values may be tls, h2, h2c, proxyv1, proxyv2. If omitted, protocol-selection falls back on Service annotations.
+	// +kubebuilder:validation:Enum=h2;h2c;tls;proxyv1;proxyv2
 	// +optional
 	Protocol *string `json:"protocol,omitempty"`
 	// Weight defines percentage of traffic to balance traffic

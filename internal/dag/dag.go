@@ -614,7 +614,7 @@ type Service struct {
 	Weighted WeightedService
 
 	// Protocol is the layer 7 protocol of this service
-	// One of "", "h2", "h2c", or "tls".
+	// One of "", "h2", "h2c", "proxyv1", "proxyv2", or "tls".
 	Protocol string
 
 	// Circuit breaking limits
